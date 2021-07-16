@@ -9,7 +9,7 @@ class LinkedList:
     def __init__(self, head=None):
         self.head = head
 
-    def solution(self):
+    def display(self):
         current = self.head
         while current:
             print(current.value)
