@@ -69,16 +69,3 @@ class LinkedList:
                 current.next = current.prev
                 current.prev = save
                 current = save
-
-
-
-
-
-n3 = DoubleConnectedNode('third')
-n2 = DoubleConnectedNode('second', n3)
-n1 = DoubleConnectedNode('first', n2)
-f = LinkedList(n1)
-n3.prev = n2
-n2.prev = n1
-
-f.solution()
