@@ -1,0 +1,12 @@
+10
+1
+pop
+push 4
+pop
+push 1
+push 1
+size
+push 3
+peek
+push 2
+pop

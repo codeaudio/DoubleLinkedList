@@ -1,13 +1,15 @@
 class DoubleConnectedNode:
-    def __init__(self, value, next=None, prev=None):
+    def __init__(self, value=None, next=None, prev=None):
         self.value = value
         self.next = next
         self.prev = prev
 
 
-class LinkedList:
-    def __init__(self, head=None):
+class LinkedList(DoubleConnectedNode):
+
+    def head(self, head):
         self.head = head
+        return self
 
     def display(self):
         current = self.head
@@ -69,3 +71,13 @@ class LinkedList:
                 current.next = current.prev
                 current.prev = save
                 current = save
+
+
+n3 = LinkedList('third')
+n2 = LinkedList('second', n3)
+n1 = LinkedList('first', n2)
+f = LinkedList().head(n1)
+n3.prev = n2
+n2.prev = n1
+f.revers()
+f.display()
