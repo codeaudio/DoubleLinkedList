@@ -32,8 +32,8 @@ class Array(list):
         return super().insert(__index, __object)
 
     def extend(self, __iterable: list) -> None:
-        if (len(self) + len(__iterable) > self.__limit) or (
-                False in (isinstance(i, self.__type.get(self.array_type)) for i in __iterable)):
+        if ((len(self) + len(__iterable) > self.__limit) or
+                (False in (isinstance(i, self.__type.get(self.array_type)) for i in __iterable))):
             raise Exception(f"max limit {self.__limit}, type {self.__array_type}")
         return super().extend(__iterable)
 
