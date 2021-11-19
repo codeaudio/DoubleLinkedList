@@ -7,13 +7,13 @@ class Array(list):
         'str': str,
         'int': int,
         'float': float,
-        'decimal': Decimal,
         'bool': bool,
         'list': list,
-        'frozenset': frozenset,
         'dict': dict,
         'tuple': tuple,
-        'set': set
+        'set': set,
+        'frozenset': frozenset,
+        'decimal': Decimal
     }
 
     def __new__(cls, array: list, __array_type: str, limit: int = None):
