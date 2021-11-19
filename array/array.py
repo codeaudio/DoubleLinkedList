@@ -1,3 +1,4 @@
+from decimal import Decimal
 from typing import Any
 
 
@@ -5,10 +6,14 @@ class Array(list):
     __type: Any = {
         'str': str,
         'int': int,
+        'float': float,
+        'decimal': Decimal,
+        'bool': bool,
+        'list': list,
+        'frozenset': frozenset,
         'dict': dict,
         'tuple': tuple,
-        'set': set,
-        'None': 'any'
+        'set': set
     }
 
     def __new__(cls, array, limit=None, type=None):
@@ -32,7 +37,7 @@ class Array(list):
             raise Exception(f"max limit {self.__limit}, type {self.__type}")
         return super().extend(__iterable)
 
-    def __init__(self, array, limit=None, type=None):
+    def __init__(self, array, type, limit=None):
         super().__init__(array)
         self.__limit = limit
         self.type = type
