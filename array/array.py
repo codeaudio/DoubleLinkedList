@@ -2,7 +2,24 @@ from decimal import Decimal
 from typing import Any
 
 
+class UnsupportedAttributeError(AttributeError):
+    pass
+
+
+class DeletedAttribute:
+    def __set_name__(self, owner, name):
+        self.name = name
+
+    def __get__(self, instance, owner):
+        cls_name = owner.__name__
+        raise UnsupportedAttributeError(f'attribute {self.name!r} of {cls_name} has been deleted')
+
+
 class Array(list):
+    extend = DeletedAttribute()
+
+    insert = DeletedAttribute()
+
     __type: Any = {
         'str': str,
         'int': int,
@@ -22,22 +39,19 @@ class Array(list):
         return super().__new__(cls)
 
     def append(self, __object) -> None:
-        if (len(self) > self.__limit) or (isinstance(__object, self.__type.get(self.array_type)) is False):
+        if (self.head >= self.__limit) or (
+                isinstance(__object, self.__type.get(self.__array_type)) is False) or None not in self:
             raise Exception(f"max limit {self.__limit}, type {self.__array_type}")
-        return super().append(__object)
+        self[self.head] = __object
+        self.head += 1
 
-    def insert(self, __index: int, __object) -> None:
-        if (len(self) > self.__limit) or (isinstance(__object, self.__type.get(self.array_type)) is False):
-            raise Exception(f"max limit {self.__limit}, type {self.__array_type}")
-        return super().insert(__index, __object)
+    def pop(self, *args):
+        self.head -= 1
+        self[self.head] = None
 
-    def extend(self, __iterable: list) -> None:
-        if ((len(self) + len(__iterable) > self.__limit) or
-                (False in (isinstance(i, self.__type.get(self.array_type)) for i in __iterable))):
-            raise Exception(f"max limit {self.__limit}, type {self.__array_type}")
-        return super().extend(__iterable)
-
-    def __init__(self, array: list, array_type: str, limit: int = None):
-        super().__init__(array)
+    def __init__(self, array: list, array_type: str, limit: int):
+        ln = len(array)
+        super().__init__(array + ([None] * (limit - ln)))
+        self.head = ln
         self.__limit = limit
         self.__array_type = array_type
