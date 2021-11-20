@@ -61,7 +61,3 @@ class Array(list):
     def pop(self, *args) -> None:
         self.head -= 1
         self[self.head] = None
-
-s = Array([1,2,3], 'int', 4)
-print(s)
-print(s)
