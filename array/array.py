@@ -32,9 +32,10 @@ class Array(list):
         'frozenset': frozenset,
         'decimal': Decimal
     }
+
     @property
     def types(self):
-        return self.__types
+        return str(self.__types)
 
     def __new__(cls, array: list, __array_type: str, limit: int = None):
         if (len(array) > limit) or (False in (isinstance(i, cls.__types.get(__array_type)) for i in array)):
