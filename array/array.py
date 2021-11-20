@@ -20,7 +20,7 @@ class Array(list):
 
     insert = DeletedAttribute()
 
-    __type: Any = {
+    __types: Any = {
         'str': str,
         'int': int,
         'float': float,
@@ -32,22 +32,14 @@ class Array(list):
         'frozenset': frozenset,
         'decimal': Decimal
     }
+    @property
+    def types(self):
+        return self.__types
 
     def __new__(cls, array: list, __array_type: str, limit: int = None):
-        if (len(array) > limit) or (False in (isinstance(i, cls.__type.get(__array_type)) for i in array)):
+        if (len(array) > limit) or (False in (isinstance(i, cls.__types.get(__array_type)) for i in array)):
             raise Exception(f"max limit {limit}, type {__array_type}")
         return super().__new__(cls)
-
-    def append(self, __object) -> None:
-        if (self.head >= self.__limit) or (
-                isinstance(__object, self.__type.get(self.__array_type)) is False) or None not in self:
-            raise Exception(f"max limit {self.__limit}, type {self.__array_type}")
-        self[self.head] = __object
-        self.head += 1
-
-    def pop(self, *args):
-        self.head -= 1
-        self[self.head] = None
 
     def __init__(self, array: list, array_type: str, limit: int):
         ln = len(array)
@@ -55,3 +47,21 @@ class Array(list):
         self.head = ln
         self.__limit = limit
         self.__array_type = array_type
+
+    def __str__(self):
+        return super().__str__() + f", type {self.__array_type}, limit {self.__limit}"
+
+    def append(self, __object) -> None:
+        if (self.head >= self.__limit) or (
+                isinstance(__object, self.__types.get(self.__array_type)) is False) or None not in self:
+            raise Exception(f"max limit {self.__limit}, type {self.__array_type}")
+        self[self.head] = __object
+        self.head += 1
+
+    def pop(self, *args) -> None:
+        self.head -= 1
+        self[self.head] = None
+
+s = Array([1,2,3], 'int', 4)
+print(s)
+print(s)
