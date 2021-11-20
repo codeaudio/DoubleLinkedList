@@ -33,9 +33,10 @@ class Array(list):
         'decimal': Decimal
     }
 
+    @classmethod
     @property
-    def types(self):
-        return str(self.__types)
+    def types(cls) -> str:
+        return str(cls.__types)
 
     def __new__(cls, array: list, __array_type: str, limit: int = None):
         if (len(array) > limit) or (False in (isinstance(i, cls.__types.get(__array_type)) for i in array)):
